@@ -1,4 +1,3 @@
 -cp test
 -main Test
--cpp bin
--cmd ./bin/Test
+-php php

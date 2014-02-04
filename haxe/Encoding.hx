@@ -39,15 +39,37 @@ import haxe.io.Bytes;
     }
 
     public static function encode(string: String, to: Encoding): Bytes {
+        #if php
+        return Bytes.ofString(
+            untyped __call__("iconv",
+            "UTF-8", to.iconvCharset + "//IGNORE",
+            string)
+        );
+        #else
         return Bytes.alloc(0); // TODO
+        #end
     }
 
     public static function decode(bytes: Bytes, from: Encoding): String {
+        #if php
+        return untyped __call__("iconv",
+            from.iconvCharset, "UTF-8//IGNORE",
+            bytes.toString());
+        #else
         return ""; // TODO
+        #end
     }
 
     public static function convert(from: Encoding, to: Encoding, bytes: Bytes): Bytes {
+        #if php
+        return Bytes.ofString(
+            untyped __call__("iconv",
+            from.iconvCharset, to.iconvCharset + "//IGNORE",
+            bytes.toString())
+        );
+        #else
         return Bytes.alloc(0); // TODO
+        #end
     }
 
     // korean
