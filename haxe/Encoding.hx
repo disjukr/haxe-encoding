@@ -42,7 +42,7 @@ import haxe.io.Bytes;
         #if php
         return Bytes.ofString(
             untyped __call__("iconv",
-            "UTF-8", to.iconvCharset + "//IGNORE",
+            Encoding.Utf8.iconvCharset, to.iconvCharset + "//IGNORE",
             string)
         );
         #else
@@ -53,7 +53,7 @@ import haxe.io.Bytes;
     public static function decode(bytes: Bytes, from: Encoding): String {
         #if php
         return untyped __call__("iconv",
-            from.iconvCharset, "UTF-8//IGNORE",
+            from.iconvCharset, Encoding.Utf8.iconvCharset + "//IGNORE",
             bytes.toString());
         #else
         return ""; // TODO
@@ -71,6 +71,9 @@ import haxe.io.Bytes;
         return Bytes.alloc(0); // TODO
         #end
     }
+
+    // unicode
+    public static var Utf8: Encoding = new Encoding(true, 65001, "UTF-8", "UTF-8", "utf-8");
 
     // korean
     public static var Cp949: Encoding = new Encoding(true, 949, "CP949", "KS_C_5601-1987", "ks_c_5601-1987");
