@@ -1,3 +1,4 @@
 -cp test
 -main Test
 -php php
+-cmd php -f php/index.php
