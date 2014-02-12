@@ -1,4 +1,5 @@
 -cp test
 -main Test
--php php
--cmd php -f php/index.php
+-lib iconv
+-cpp bin
+-cmd ./bin/Test

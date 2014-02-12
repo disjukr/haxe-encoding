@@ -2,6 +2,10 @@ package haxe;
 
 import haxe.io.Bytes;
 
+#if (cpp || neko)
+import iconv.Iconv;
+#end
+
 @:final class Encoding {
 
     public var asciiCompatible (default, null): Bool;
@@ -40,11 +44,9 @@ import haxe.io.Bytes;
 
     public static function encode(string: String, to: Encoding): Bytes {
         #if php
-        return Bytes.ofString(
-            untyped __call__("iconv",
-            defaultEncoding.iconvCharset, to.iconvCharset + "//IGNORE",
-            string)
-        );
+        return Bytes.ofString(untyped __call__("iconv", defaultEncoding.iconvCharset, to.iconvCharset + "//IGNORE", string));
+        #elseif (cpp || neko)
+        return Bytes.ofString(Iconv.convert(string, defaultEncoding.iconvCharset, to.iconvCharset + "//IGNORE"));
         #else
         #error
         #end
@@ -52,9 +54,9 @@ import haxe.io.Bytes;
 
     public static function decode(bytes: Bytes, from: Encoding): String {
         #if php
-        return untyped __call__("iconv",
-            from.iconvCharset, defaultEncoding.iconvCharset + "//IGNORE",
-            bytes.toString());
+        return untyped __call__("iconv", from.iconvCharset, defaultEncoding.iconvCharset + "//IGNORE", bytes.toString());
+        #elseif (cpp || neko)
+        return Iconv.convert(bytes.toString(), from.iconvCharset, defaultEncoding.iconvCharset + "//IGNORE");
         #else
         #error
         #end
@@ -62,11 +64,9 @@ import haxe.io.Bytes;
 
     public static function convert(from: Encoding, to: Encoding, bytes: Bytes): Bytes {
         #if php
-        return Bytes.ofString(
-            untyped __call__("iconv",
-            from.iconvCharset, to.iconvCharset + "//IGNORE",
-            bytes.toString())
-        );
+        return Bytes.ofString(untyped __call__("iconv", from.iconvCharset, to.iconvCharset + "//IGNORE", bytes.toString()));
+        #elseif (cpp || neko)
+        return Bytes.ofString(Iconv.convert(bytes.toString(), from.iconvCharset, to.iconvCharset + "//IGNORE"));
         #else
         #error
         #end
