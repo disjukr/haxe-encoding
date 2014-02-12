@@ -46,7 +46,7 @@ import haxe.io.Bytes;
             string)
         );
         #else
-        return Bytes.alloc(0); // TODO
+        #error
         #end
     }
 
@@ -56,7 +56,7 @@ import haxe.io.Bytes;
             from.iconvCharset, defaultEncoding.iconvCharset + "//IGNORE",
             bytes.toString());
         #else
-        return ""; // TODO
+        #error
         #end
     }
 
@@ -68,7 +68,7 @@ import haxe.io.Bytes;
             bytes.toString())
         );
         #else
-        return Bytes.alloc(0); // TODO
+        #error
         #end
     }
 
