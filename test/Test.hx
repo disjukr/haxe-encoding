@@ -26,7 +26,7 @@ class Test extends TestCase {
         var a = Encoding.encode("가힣", Encoding.Cp949);
         var b = Encoding.decode(a, Encoding.Cp949);
         assertEquals(b, "가힣");
-        var c = Encoding.convert(Encoding.Cp949, Encoding.Utf8, a);
+        var c = Encoding.convert(Encoding.Cp949, Encoding.defaultEncoding, a);
         assertEquals(c.toString(), "가힣");
     }
 }
